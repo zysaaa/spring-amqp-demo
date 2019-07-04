@@ -1,0 +1,9 @@
+spring:
+  rabbitmq:
+    addresses: 10.10.20.31
+    username: shterm
+    password: shterm
+    template:
+      retry:
+        enabled: true
+        initial-interval: 2000
