@@ -22,6 +22,7 @@ public class Config {
 
   public static final String SYNC_QUEUE_NAME = "sync_queue_name";
   public static final String ASYNC_QUEUE_NAME = "async_queue_name";
+  public static final String SYNC_QUEUE_NAME_USING_MESSAGE = "sync_queue_using_message";
   public static final String ASYNC_RECEIVE_QUEUE_NAME = "async_receive_queue_name";
 
   public static final String SYNC_EXCHANGE_NAME = "sync_exchange_name";
@@ -50,6 +51,11 @@ public class Config {
   }
 
   @Bean
+  public Queue syncQueueUsingMessage() {
+    return new Queue(SYNC_QUEUE_NAME_USING_MESSAGE); // durable, non-exclusive and non auto-delete.
+  }
+
+  @Bean
   public Queue asyncQueue() {
     return new Queue(ASYNC_QUEUE_NAME); // durable, non-exclusive and non auto-delete.
   }
@@ -73,6 +79,11 @@ public class Config {
   @Bean
   public Binding binding() {
     return BindingBuilder.bind(syncQueue()).to(syncExchange()).with("sync.*");   // 转发routingkey格式为 sync.* 的信息。
+  }
+
+  @Bean
+  public Binding binding2() {
+    return BindingBuilder.bind(syncQueueUsingMessage()).to(syncExchange()).with("syncusingmessage.*");   // 转发routingkey格式为 syncusingmessage.* 的信息。
   }
 
   @Bean

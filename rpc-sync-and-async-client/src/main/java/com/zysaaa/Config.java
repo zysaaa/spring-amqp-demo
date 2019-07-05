@@ -21,14 +21,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan("com.zysaaa.service")
 public class Config {
 
-  public static final String SYNC_QUEUE_NAME = "sync_queue_name";
-  public static final String ASYNC_QUEUE_NAME = "async_queue_name";
+  private static final String SYNC_QUEUE_NAME = "sync_queue_name";
+  private static final String ASYNC_QUEUE_NAME = "async_queue_name";
+  public static final String SYNC_QUEUE_NAME_USING_MESSAGE = "sync_queue_using_message";
   public static final String ASYNC_RECEIVE_QUEUE_NAME = "async_receive_queue_name";
 
   public static final String SYNC_EXCHANGE_NAME = "sync_exchange_name";
   public static final String ASYNC_EXCHANGE_NAME = "async_exchange_name";
 
   public static final String SYNC_ROUTING_KEY = "sync.routing_key";
+  public static final String SYNC_ROUTING_KEY_USING_MESSAGE = "syncusingmessage.routing_key";
   public static final String ASYNC_ROUTING_KEY = "async.routing_key";
   public static final String ASYNC_RECEIVE_ROUTING_KEY = "asyncreceive.routing_key";
 

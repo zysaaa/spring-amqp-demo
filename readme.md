@@ -28,3 +28,5 @@ $ mvn clean install
     java -jar letter-producer/target/letter-producer-1.0-SNAPSHOT.jar
     ```
 3. 查看运行时的控制台输出。
+
+**或者：直接运行对应module（每个module都是一个SpringBoot项目），便于调试。**
