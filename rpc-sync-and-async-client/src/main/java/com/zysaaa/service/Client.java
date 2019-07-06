@@ -1,13 +1,5 @@
 package com.zysaaa.service;
 
-import static com.zysaaa.Config.ASYNC_EXCHANGE_NAME;
-import static com.zysaaa.Config.ASYNC_RECEIVE_QUEUE_NAME;
-import static com.zysaaa.Config.ASYNC_RECEIVE_ROUTING_KEY;
-import static com.zysaaa.Config.ASYNC_ROUTING_KEY;
-import static com.zysaaa.Config.SYNC_EXCHANGE_NAME;
-import static com.zysaaa.Config.SYNC_ROUTING_KEY;
-import static com.zysaaa.Config.SYNC_ROUTING_KEY_USING_MESSAGE;
-
 import java.io.IOException;
 import java.util.UUID;
 
@@ -16,6 +8,7 @@ import org.springframework.amqp.core.Address;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,6 +21,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zysaaa.Message;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.concurrent.FailureCallback;
+import org.springframework.util.concurrent.SuccessCallback;
+
+import static com.zysaaa.Config.*;
 
 @Service
 @Slf4j
@@ -35,6 +32,9 @@ public class Client {
 
   @Autowired
   private AmqpTemplate amqpTemplate;
+
+  @Autowired
+  private AsyncRabbitTemplate asyncRabbitTemplate;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -84,6 +84,27 @@ public class Client {
   @RabbitListener(queues = ASYNC_RECEIVE_QUEUE_NAME)
   public void receiveAsyncResponse(@Payload Message message) {
     log.info("receive response async: {}", message);
+  }
+
+  @Scheduled(fixedDelay = 5000L)
+  public void sendUsingAsyncTemplate() throws JsonProcessingException {
+    Message message = new Message(UUID.randomUUID().toString(), "hi this is client using async template");
+    log.info("send msg: {} to server using async template ", message);
+    org.springframework.amqp.core.Message messageToSend = MessageBuilder
+      .withBody(objectMapper.writeValueAsBytes(message))
+        .setContentType(MediaType.APPLICATION_JSON_VALUE).build();
+    AsyncRabbitTemplate.RabbitMessageFuture future = asyncRabbitTemplate.sendAndReceive(ASYNC_EXCHANGE_NAME, ASYNC_TEMPLATE_ROUTING_KEY ,messageToSend);
+    future.addCallback(new SuccessCallback<org.springframework.amqp.core.Message>() {
+      @Override
+      public void onSuccess(org.springframework.amqp.core.Message message) {
+        log.info("receive response using async template: {}", message);
+      }
+    }, new FailureCallback() {
+      @Override
+      public void onFailure(Throwable throwable) {
+        log.error("fail to receive response using async template", throwable);
+      }
+    });
   }
 
 

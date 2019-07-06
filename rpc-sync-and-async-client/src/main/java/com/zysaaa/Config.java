@@ -6,6 +6,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -26,13 +27,20 @@ public class Config {
   public static final String SYNC_QUEUE_NAME_USING_MESSAGE = "sync_queue_using_message";
   public static final String ASYNC_RECEIVE_QUEUE_NAME = "async_receive_queue_name";
 
+  public static final String ASYNC_RECEIVE_TEMPLATE_QUEUE_NAME = "async_receive_template_queue_name";
+
   public static final String SYNC_EXCHANGE_NAME = "sync_exchange_name";
   public static final String ASYNC_EXCHANGE_NAME = "async_exchange_name";
+
 
   public static final String SYNC_ROUTING_KEY = "sync.routing_key";
   public static final String SYNC_ROUTING_KEY_USING_MESSAGE = "syncusingmessage.routing_key";
   public static final String ASYNC_ROUTING_KEY = "async.routing_key";
   public static final String ASYNC_RECEIVE_ROUTING_KEY = "asyncreceive.routing_key";
+
+
+  public static final String ASYNC_RECEIVE_TEMPLATE_ROUTING_KEY = "asyncreceivetemplate.routing_key";
+  public static final String ASYNC_TEMPLATE_ROUTING_KEY = "asynctemplate.routing_key";
 
   @Bean
   public AmqpTemplate amqpTemplate(@Autowired ConnectionFactory amqpConnectionFactory) {
@@ -42,7 +50,14 @@ public class Config {
   }
 
   @Bean
-  public MessageConverter jsonMessageConverter() {
+  public AsyncRabbitTemplate asyncRabbitTemplate(@Autowired ConnectionFactory amqpConnectionFactory) {
+    AsyncRabbitTemplate asyncRabbitTemplate = new AsyncRabbitTemplate
+        (amqpConnectionFactory, ASYNC_EXCHANGE_NAME, ASYNC_RECEIVE_TEMPLATE_ROUTING_KEY, ASYNC_RECEIVE_TEMPLATE_QUEUE_NAME);
+    return asyncRabbitTemplate;
+  }
+
+  @Bean
+  public Jackson2JsonMessageConverter jsonMessageConverter() {
     return new Jackson2JsonMessageConverter();
   }
 
