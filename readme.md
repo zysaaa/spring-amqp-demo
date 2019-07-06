@@ -10,7 +10,7 @@ $ git clone < this project >
 $ cd RabbitMQ-SpringBoot-Sample
 $ mvn clean install
 ```
-2. 一共有6个子module，分别展示了 dead-letter，rpc(同步/异步-自己实现/异步-使用AsyncTemplate)，以及一般简单用法（Topic Exchange）。构建完成之后每个module下的target文件夹下会生成对应的kar包。
+2. 一共有6个子module，分别展示了 dead-letter，rpc(同步/异步-自己实现/异步-使用AsyncTemplate)，以及一般简单用法（Topic Exchange）。构建完成之后每个module下的target文件夹下会生成对应的jar包。
 
 - dead-letter：
     ```
