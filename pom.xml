@@ -15,6 +15,8 @@
     <module>dead-letter-producer</module>
     <module>rpc-sync-and-async-server</module>
     <module>rpc-sync-and-async-client</module>
+    <module>delay-queue-consumer</module>
+    <module>delay-queue-producer</module>
   </modules>
 
 
