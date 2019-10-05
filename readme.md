@@ -1,8 +1,6 @@
 ##### RabbitMQ sample in SpringBoot
 
-确保安装 lombok 插件。<br>
-确保启动了 RabbitMQ 服务。（windows or linux）。<br>
-确保每个 module 下的 application.yml 配置了 RabbitMQ 服务的正确的ip以及用户名/密码。
+确保启动了 RabbitMQ 服务且module 下的 application.yml 配置了 RabbitMQ 服务的正确的 ip 以及用户名/密码。<br>
 
 1. 使用maven构建项目
 ```
@@ -10,7 +8,7 @@ $ git clone < this project >
 $ cd RabbitMQ-SpringBoot-Sample
 $ mvn clean install
 ```
-2. 一共有8个子module，分别展示了 dead-letter,delay-queue,rpc(同步/异步-自己实现/异步-使用AsyncTemplate),以及一般简单用法（Topic Exchange）。构建完成之后每个module下的target文件夹下会生成对应的jar包。
+2. 一共有5个模块，分别展示了 dead-letter,delay-queue,publish-confirms&max-length%overflow-reject,rpc(同步/异步-自己实现/异步-使用AsyncTemplate),以及一般简单用法（Topic Exchange）。构建完成之后每个module下的target文件夹下会生成对应的jar包。
 
 - dead-letter：
     ```
