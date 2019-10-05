@@ -1,0 +1,10 @@
+spring:
+  rabbitmq:
+    addresses: 127.0.0.1
+    template:
+      retry:
+        enabled: true
+        initial-interval: 2000
+    listener:
+      acknowledge-mode: manual
+

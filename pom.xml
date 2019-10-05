@@ -17,6 +17,8 @@
     <module>rpc-sync-and-async-client</module>
     <module>delay-queue-consumer</module>
     <module>delay-queue-producer</module>
+      <module>publisher-confirms-maxlength-overflow-reject-producer</module>
+    <module>publisher-confirms-maxlength-overflow-reject-consumer</module>
   </modules>
 
 
