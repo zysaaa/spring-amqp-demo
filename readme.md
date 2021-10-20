@@ -1,4 +1,3 @@
-##### RabbitMQ sample in SpringBoot
 
 确保启动了 RabbitMQ 服务且module 下的 application.yml 配置了 RabbitMQ 服务的正确的 ip 以及用户名/密码。<br>
 
